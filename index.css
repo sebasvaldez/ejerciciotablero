@@ -29,3 +29,13 @@ td {
     align-items: center;
 
 }
+
+form{
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    
+}
+form input{
+    padding: 0.5rem;
+    background-color: whitesmoke;
+}

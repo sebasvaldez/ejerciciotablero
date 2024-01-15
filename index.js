@@ -1,27 +1,39 @@
 // Función para crear la matriz que usaré como tablero
-const crearTablero = () => {
+const crearTablero = (size) => {
+  // Declaramos las variables
   let tablero = [];
-  for (let i = 0; i < 7; i++) {
+  let colorActual = "rojo";
+
+  // Inicializamos el tablero
+  for (let i = 0; i < size; i++) {
     tablero[i] = [];
-    for (let j = 0; j < 7; j++) {
-        
-      if (i % 2 == 0 && j % 2 == 0) {
-        tablero[i][j] = "rojo";
-      } else if (i % 2 == 0 && j % 2 != 0) {
-        tablero[i][j] = "azul";
-      } else if (i % 2 != 0 && j % 2 == 0) {
-        tablero[i][j] = "azul";
-      } else {
-        tablero[i][j] = "rojo";
-      }
+    for (let j = 0; j < size; j++) {
+      tablero[i].push(colorActual);
     }
   }
 
+  // Cambiamos el color de los bordes
+  for (let i = 0; i < size; i++) {
+    tablero[i][0] = "azul";
+    tablero[i][size - 1] = "azul";
+    tablero[0][i] = "azul";
+    tablero[size - 1][i] = "azul";
+  }
+
+  // Alternemos los colores de los cuadros interiores
+  for (let i = 1; i < size - 1; i++) {
+    for (let j = 1; j < size - 1; j++) {
+      tablero[i][j] = colorActual === "rojo" ? "azul" : "rojo";
+    }
+    colorActual = colorActual === "rojo" ? "azul" : "rojo";
+  }
+
+  // Devolvemos el tablero coloreado
   return tablero;
 };
 
-const tableroDePrueba = crearTablero();
-console.log(tableroDePrueba)
+const tableroDePrueba = crearTablero(8);
+console.log(tableroDePrueba);
 
 // Función para verificar si es posible colorear el tablero según las restricciones
 function esPosibleColorearTablero(tablero) {
@@ -53,7 +65,7 @@ function esPosibleColorearTablero(tablero) {
 }
 
 const resp = esPosibleColorearTablero(tableroDePrueba);
-console.log(resp);
+//console.log(resp);
 
 // Función para pintar el tablero
 
@@ -66,7 +78,7 @@ const pintarTablero = (tablero) => {
 
     for (let j = 0; j < tablero[i].length; j++) {
       const celda = document.createElement("td");
-      celda.textContent = i + 1; // Etiqueta cada celda con su posición
+
       celda.classList.add(tablero[i][j]);
       fila.appendChild(celda);
     }
@@ -77,8 +89,6 @@ const pintarTablero = (tablero) => {
   contenedorTablero.appendChild(tabla);
 };
 
-
-//crearTableroHTML(tableroEjemplo)
 //Verificamos si es posible colorear el tablero y lo mostramos en HTML
 if (esPosibleColorearTablero(tableroDePrueba)) {
   pintarTablero(tableroDePrueba);
